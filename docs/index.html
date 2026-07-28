@@ -11,7 +11,7 @@
      the page carries a personal phone number. -->
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-FdKbvdMYKJQBuXGDMvlPcxg1I94wLo1Hj4uyNGhunZA=' 'sha256-GvBjkv5jf/vicYoUTSzvhiVj3N0BqN+ETrS1FtJztBo='; script-src 'sha256-J6wlHwVj9vao4woexhQf9XliEq/3+Ypd68XR2PDRObc='; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-FdKbvdMYKJQBuXGDMvlPcxg1I94wLo1Hj4uyNGhunZA=' 'sha256-lWAXxJh40QEzTChkC2afKMacvdYVOg/KyzyfByxe3YM='; script-src 'sha256-EOk3YBGV79kv+AChiL+1l8IujYc352LPr2zZTYLV4c4='; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
 
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Yuval Gabay — CV">
@@ -678,6 +678,240 @@
 }
 
 /* ============================================================
+   ACCESSIBILITY
+   The page is built to be usable without any of this — landmarks,
+   real buttons, visible focus, AA contrast, honoured reduced-motion.
+   These controls are on top of that, not instead of it.
+   ============================================================ */
+
+/* Skip link: first thing a keyboard or screen-reader user reaches. */
+.skip {
+  position: absolute;
+  left: var(--s3); top: -100px;
+  z-index: 100;
+  padding: .7rem 1.1rem;
+  background: var(--brass);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: .8125rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border: none; border-radius: 3px;
+  transition: top .2s var(--ease);
+}
+.skip:focus { top: var(--s3); color: var(--paper); }
+
+.a11y { position: fixed; right: 18px; bottom: 18px; z-index: 95; }
+@media (min-width: 1024px) { .a11y { right: 24px; bottom: 24px; } }
+
+.a11y__btn {
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--brass);
+  cursor: pointer;
+  box-shadow: 0 6px 22px rgba(0,0,0,.28);
+  transition: transform .25s var(--ease), border-color .25s var(--ease), background-color .25s var(--ease);
+}
+.a11y__btn:hover { transform: scale(1.06); border-color: var(--brass); }
+.a11y__btn svg { width: 26px; height: 26px; }
+
+.a11y__panel {
+  position: absolute;
+  right: 0; bottom: 60px;
+  width: 274px;
+  max-height: min(74vh, 560px);
+  overflow-y: auto;
+  padding: var(--s3);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface-2);
+  box-shadow: 0 14px 44px rgba(0,0,0,.36);
+  display: grid;
+  gap: .45rem;
+}
+.a11y__panel[hidden] { display: none; }
+
+.a11y__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: var(--s2);
+  margin-bottom: .15rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+.a11y__x {
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  border: none; background: none; border-radius: 3px;
+  color: var(--muted); cursor: pointer;
+  font-family: var(--font-mono); font-size: 1rem; line-height: 1;
+}
+.a11y__x:hover { color: var(--ink); background: var(--brass-soft); }
+
+.a11y__k { font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.a11y__row { display: grid; gap: .45rem; padding: .3rem 0 .5rem; }
+
+.a11y__seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
+.a11y__seg button {
+  padding: .45rem 0;
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--muted);
+  font-family: var(--font-display);
+  cursor: pointer;
+  line-height: 1;
+  transition: color .2s var(--ease), border-color .2s var(--ease), background-color .2s var(--ease);
+}
+.a11y__seg button:nth-child(1) { font-size: .8125rem; }
+.a11y__seg button:nth-child(2) { font-size: .9375rem; }
+.a11y__seg button:nth-child(3) { font-size: 1.0625rem; }
+.a11y__seg button:nth-child(4) { font-size: 1.1875rem; }
+.a11y__seg button:hover { color: var(--ink); border-color: var(--line); }
+.a11y__seg button[aria-pressed="true"] { color: var(--brass); border-color: var(--brass); background: var(--brass-soft); }
+
+/* Toggle rows: a real switch, driven by aria-pressed rather than a stray class. */
+.a11y__t {
+  display: grid;
+  grid-template-columns: 1fr 34px;
+  align-items: center;
+  gap: var(--s2);
+  width: 100%;
+  padding: .5rem .55rem;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: none;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: .875rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .2s var(--ease), border-color .2s var(--ease);
+}
+.a11y__t:hover { background: var(--brass-soft); }
+.a11y__t i {
+  display: block;
+  height: 18px; width: 34px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--paper);
+  position: relative;
+  transition: background-color .25s var(--ease), border-color .25s var(--ease);
+}
+.a11y__t i::after {
+  content: "";
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--faint);
+  transition: transform .25s var(--ease), background-color .25s var(--ease);
+}
+.a11y__t[aria-pressed="true"] { border-color: var(--brass-soft); }
+.a11y__t[aria-pressed="true"] i { background: var(--brass-soft); border-color: var(--brass); }
+.a11y__t[aria-pressed="true"] i::after { transform: translateX(16px); background: var(--brass); }
+
+.a11y__reset {
+  margin-top: .3rem;
+  padding: .55rem;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.a11y__reset:hover { color: var(--ink); border-color: var(--brass); }
+.a11y__note {
+  font-size: .75rem;
+  line-height: 1.5;
+  color: var(--faint);
+  padding-top: var(--s2);
+  border-top: 1px solid var(--line-soft);
+}
+.a11y__note a { color: var(--brass); }
+
+/* ---- what the switches actually do ---- */
+
+/* Maximum contrast: black and white, ambience off, borders hardened. */
+.cv.a11y-contrast {
+  --paper: #000; --surface: #0B0B0B; --surface-2: #101010;
+  --ink: #FFF; --muted: #E8E8E8; --faint: #CFCFCF;
+  --line: #7A7A7A; --line-soft: #5C5C5C;
+  --brass: #FFC85C; --brass-ink: #FFD98A; --brass-soft: rgba(255,200,92,.18);
+  --jade: #6BF0BC; --flaw: #FF9B72;
+}
+:root[data-theme="light"] .cv.a11y-contrast,
+.cv.a11y-contrast.a11y-light {
+  --paper: #FFF; --surface: #FFF; --surface-2: #FFF;
+  --ink: #000; --muted: #1A1A1A; --faint: #333;
+  --line: #333; --line-soft: #666;
+  --brass: #6B4A00; --brass-ink: #4A3300; --brass-soft: rgba(107,74,0,.12);
+  --jade: #0A4F39; --flaw: #8C2E10;
+}
+.cv.a11y-contrast .bg { display: none; }
+.cv.a11y-contrast .ex,
+.cv.a11y-contrast .fig,
+.cv.a11y-contrast .avail,
+.cv.a11y-contrast .fit__row,
+.cv.a11y-contrast .sign { border-color: var(--line); }
+
+/* Monochrome, for colour-sensitive reading. */
+.cv.a11y-gray { filter: grayscale(1); }
+
+/* Links called out rather than left to colour alone. */
+.cv.a11y-links a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  color: var(--brass-ink);
+  border-bottom-color: transparent;
+}
+.cv.a11y-links button { outline: 1px dashed var(--brass); outline-offset: 2px; }
+
+/* One plain sans everywhere — the display serif is the first thing to go
+   for a reader who finds it hard work. */
+.cv.a11y-plain,
+.cv.a11y-plain .mast__name,
+.cv.a11y-plain .mast__thesis,
+.cv.a11y-plain .clause__title,
+.cv.a11y-plain .ex__name,
+.cv.a11y-plain .rec__what,
+.cv.a11y-plain .fig__v,
+.cv.a11y-plain .fit__k,
+.cv.a11y-plain .avail__t { font-family: var(--font-body); }
+.cv.a11y-plain .mast__name em,
+.cv.a11y-plain .rec__desc em,
+.cv.a11y-plain .fit__v em { font-style: normal; font-weight: 600; }
+
+/* Looser text for easier tracking. */
+.cv.a11y-space { line-height: 1.9; letter-spacing: .02em; word-spacing: .1em; }
+.cv.a11y-space p, .cv.a11y-space li, .cv.a11y-space .fit__v, .cv.a11y-space .rec__desc { line-height: 1.9; }
+.cv.a11y-space .clause__title, .cv.a11y-space .mast__name { line-height: 1.25; }
+
+/* Everything holds still, and nothing is left mid-reveal. */
+.cv.a11y-still, .cv.a11y-still *, .cv.a11y-still *::before, .cv.a11y-still *::after {
+  animation: none !important;
+  transition: none !important;
+}
+.cv.a11y-still .rise, .cv.a11y-still .reveal { opacity: 1 !important; transform: none !important; }
+.cv.a11y-still .lang__f { transform: none !important; }
+.cv.a11y-still .bg { display: none; }
+
+/* A pointer that is actually findable. */
+.cv.a11y-cursor, .cv.a11y-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'%3E%3Cpath d='M5 2l14 8.5-6.2 1.2 3.1 6.4-2.6 1.3-3.1-6.4L5 17z' fill='%23fff' stroke='%23000' stroke-width='1.2'/%3E%3C/svg%3E") 4 2, auto;
+}
+.cv.a11y-cursor a, .cv.a11y-cursor button {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'%3E%3Cpath d='M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V12m0-1a1.5 1.5 0 0 1 3 0v2m0-.5a1.5 1.5 0 0 1 3 0V17a4 4 0 0 1-4 4h-3a5 5 0 0 1-4.3-2.4L5 15a1.5 1.5 0 0 1 2.5-1.6L9 15' fill='%23fff' stroke='%23000' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E") 8 2, pointer;
+}
+
+/* ============================================================
    PRINT
    ============================================================ */
 @media print {
@@ -687,7 +921,8 @@
     --brass:#6E5011; --brass-ink:#6E5011; --brass-soft:rgba(0,0,0,.05); --jade:#1d5c46;
   }
   @page { size: A4; margin: 11mm 13mm; }
-  .rail, .ex__chev, .toast, .bg { display: none !important; }
+  .rail, .ex__chev, .toast, .bg, .a11y, .skip { display: none !important; }
+  .cv.a11y-gray { filter: none; }
   .more { font-size: 7.6pt; }
   .shell { display: block; }
   .cv { font-size: 8.7pt; line-height: 1.4; background: #fff; }
@@ -756,7 +991,8 @@
 }
 </style>
 
-<div class="cv" id="cv">
+<div class="cv" id="cv" lang="en">
+<a class="skip" href="#main">Skip to content</a>
 <div class="bg" aria-hidden="true"><canvas id="field"></canvas></div>
 <div class="shell">
 
@@ -781,7 +1017,7 @@
   </nav>
 
   <!-- ══════════ DOCUMENT ══════════ -->
-  <main class="doc">
+  <main class="doc" id="main" tabindex="-1">
 
     <!-- MASTHEAD -->
     <header class="mast">
@@ -1096,6 +1332,51 @@
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite">Link copied</div>
+
+<div class="a11y" id="a11y">
+  <button class="a11y__btn" id="a11yBtn" type="button" aria-expanded="false" aria-controls="a11yPanel" aria-label="Accessibility options" title="Accessibility options">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="4.2" r="1.8" fill="currentColor" stroke="none"/>
+      <path d="M4 8.2h16"/>
+      <path d="M12 8.2v6"/>
+      <path d="M12 14.2l-3 6.4M12 14.2l3 6.4"/>
+    </svg>
+  </button>
+
+  <div class="a11y__panel" id="a11yPanel" role="dialog" aria-modal="false" aria-label="Accessibility options" hidden>
+    <div class="a11y__head">
+      <span class="a11y__k">Accessibility</span>
+      <button class="a11y__x" id="a11yClose" type="button" aria-label="Close accessibility options">&times;</button>
+    </div>
+
+    <div class="a11y__row">
+      <span class="a11y__k" id="a11ySizeLabel">Text size</span>
+      <div class="a11y__seg" role="group" aria-labelledby="a11ySizeLabel">
+        <button type="button" data-size="1" aria-pressed="true" aria-label="Default text size">A</button>
+        <button type="button" data-size="1.15" aria-pressed="false" aria-label="Larger text">A</button>
+        <button type="button" data-size="1.3" aria-pressed="false" aria-label="Even larger text">A</button>
+        <button type="button" data-size="1.5" aria-pressed="false" aria-label="Largest text">A</button>
+      </div>
+    </div>
+
+    <button class="a11y__t" type="button" data-flag="contrast" aria-pressed="false"><span>High contrast</span><i aria-hidden="true"></i></button>
+    <button class="a11y__t" type="button" data-flag="space" aria-pressed="false"><span>More spacing</span><i aria-hidden="true"></i></button>
+    <button class="a11y__t" type="button" data-flag="plain" aria-pressed="false"><span>Readable font</span><i aria-hidden="true"></i></button>
+    <button class="a11y__t" type="button" data-flag="links" aria-pressed="false"><span>Highlight links</span><i aria-hidden="true"></i></button>
+    <button class="a11y__t" type="button" data-flag="still" aria-pressed="false"><span>Stop animation</span><i aria-hidden="true"></i></button>
+    <button class="a11y__t" type="button" data-flag="gray" aria-pressed="false"><span>Grayscale</span><i aria-hidden="true"></i></button>
+    <button class="a11y__t" type="button" data-flag="cursor" aria-pressed="false"><span>Large cursor</span><i aria-hidden="true"></i></button>
+
+    <button class="a11y__reset" id="a11yReset" type="button">Reset all</button>
+
+    <p class="a11y__note">
+      Built to WCAG 2.2 AA: landmarks, keyboard access, visible focus, and
+      contrast checked in both themes. Your settings are remembered on this
+      device. Something not working for you?
+      <a href="mailto:yuvalgabay20@gmail.com?subject=Accessibility">Tell me</a>.
+    </p>
+  </div>
+</div>
 </div>
 
 <script>
@@ -1219,6 +1500,111 @@
     });
   }, 2500);
 
+  /* ---- accessibility controls -------------------------------------------
+     Preferences live on the .cv element, so everything stays scoped to this
+     page and nothing leaks into a host that embeds it. --------------------- */
+  var a11yStill = false;
+  (function () {
+    var panel = document.getElementById('a11yPanel');
+    var btn = document.getElementById('a11yBtn');
+    if (!panel || !btn) return;
+
+    var FLAGS = ['contrast', 'space', 'plain', 'links', 'still', 'gray', 'cursor'];
+    var KEY = 'yg-cv-a11y';
+    var state = { size: 1, flags: {} };
+    var darkMQ = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : { matches: true };
+
+    function store() {
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* private mode */ }
+    }
+    function load() {
+      try {
+        var raw = localStorage.getItem(KEY);
+        if (!raw) return;
+        var got = JSON.parse(raw);
+        if (got && typeof got === 'object') {
+          if (typeof got.size === 'number' && got.size >= 1 && got.size <= 1.5) state.size = got.size;
+          if (got.flags && typeof got.flags === 'object') {
+            FLAGS.forEach(function (f) { if (got.flags[f] === true) state.flags[f] = true; });
+          }
+        }
+      } catch (e) { /* corrupt or unavailable — fall back to defaults */ }
+    }
+
+    function apply() {
+      FLAGS.forEach(function (f) { root.classList.toggle('a11y-' + f, !!state.flags[f]); });
+      // High contrast comes in a light and a dark version. The theme may be
+      // stamped on the root by a host, or come from the OS with no attribute
+      // at all — both have to resolve to the right one.
+      var attr = document.documentElement.getAttribute('data-theme');
+      var isLight = attr === 'light' || (!attr && !darkMQ.matches);
+      root.classList.toggle('a11y-light', isLight);
+      document.documentElement.style.fontSize = state.size === 1 ? '' : (16 * state.size) + 'px';
+      a11yStill = !!state.flags.still;
+      if (a11yStill) snap();
+
+      panel.querySelectorAll('[data-flag]').forEach(function (b) {
+        b.setAttribute('aria-pressed', state.flags[b.getAttribute('data-flag')] ? 'true' : 'false');
+      });
+      panel.querySelectorAll('[data-size]').forEach(function (b) {
+        b.setAttribute('aria-pressed', parseFloat(b.getAttribute('data-size')) === state.size ? 'true' : 'false');
+      });
+    }
+
+    function open(yes) {
+      panel.hidden = !yes;
+      btn.setAttribute('aria-expanded', yes ? 'true' : 'false');
+      if (yes) {
+        var first = panel.querySelector('button');
+        if (first) first.focus();
+      }
+    }
+
+    btn.addEventListener('click', function () { open(panel.hidden); });
+    document.getElementById('a11yClose').addEventListener('click', function () {
+      open(false); btn.focus();
+    });
+
+    panel.querySelectorAll('[data-flag]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var f = b.getAttribute('data-flag');
+        state.flags[f] = !state.flags[f];
+        apply(); store();
+      });
+    });
+    panel.querySelectorAll('[data-size]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.size = parseFloat(b.getAttribute('data-size'));
+        apply(); store();
+      });
+    });
+
+    document.getElementById('a11yReset').addEventListener('click', function () {
+      state = { size: 1, flags: {} };
+      apply();
+      try { localStorage.removeItem(KEY); } catch (e) { /* nothing to clear */ }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) { open(false); btn.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (panel.hidden) return;
+      if (!document.getElementById('a11y').contains(e.target)) open(false);
+    });
+
+    // The theme can change under us, by host toggle or by OS setting.
+    if (window.MutationObserver) {
+      new MutationObserver(apply).observe(document.documentElement, {
+        attributes: true, attributeFilter: ['data-theme']
+      });
+    }
+    if (darkMQ.addEventListener) darkMQ.addEventListener('change', apply);
+
+    load();
+    apply();
+  })();
+
   /* ---- ambient 3D: a wireframe panel turning under a scan pass -----------
      Hand-rolled projection — no library is reachable from a published page,
      and 600 line segments do not need one. -------------------------------- */
@@ -1262,6 +1648,9 @@
     }
 
     function fdraw(now) {
+      // "Stop animation" hides the layer in CSS; stop burning frames too.
+      // The visibility observer below restarts the loop if it comes back.
+      if (a11yStill) { frf = null; return; }
       frf = requestAnimationFrame(fdraw);
       if (now - flast < 28) return;      // ~35fps is plenty for ambience
       flast = now;
