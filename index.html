@@ -807,6 +807,18 @@
   border-top: 1px solid var(--line-soft);
 }
 .a11y__note a { color: var(--brass); }
+.a11y__link {
+  display: block;
+  margin-top: .4rem;
+  padding: 0;
+  border: none; background: none;
+  color: var(--brass);
+  font: inherit;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
 
 /* ---- what the switches actually do ---- */
 
@@ -884,6 +896,105 @@
 }
 
 /* ============================================================
+   FOOTER + LEGAL OVERLAY
+   ============================================================ */
+.foot {
+  display: flex; flex-wrap: wrap; gap: .5rem 1.4rem;
+  padding-top: var(--s5);
+  margin-top: var(--s5);
+  border-top: 1px solid var(--line-soft);
+}
+.foot button {
+  background: none; border: none; padding: 0;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  transition: color .2s var(--ease);
+}
+.foot button:hover { color: var(--brass); }
+
+.legal {
+  position: fixed; inset: 0; z-index: 110;
+  display: grid; place-items: center;
+  padding: var(--s3);
+  background: rgba(0,0,0,.62);
+}
+.legal[hidden] { display: none; }
+.legal__box {
+  width: min(680px, 100%);
+  max-height: min(86vh, 760px);
+  overflow-y: auto;
+  padding: var(--s5) var(--s4);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+@media (min-width: 700px) { .legal__box { padding: var(--s6) var(--s5); } }
+
+.legal__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--s3);
+  padding-bottom: var(--s3);
+  border-bottom: 1px solid var(--line-soft);
+  margin-bottom: var(--s4);
+}
+.legal__x {
+  border: 1px solid var(--line); border-radius: 3px;
+  background: none; color: var(--muted);
+  width: 30px; height: 30px; flex: none;
+  cursor: pointer; font-family: var(--font-mono); font-size: 1rem; line-height: 1;
+}
+.legal__x:hover { color: var(--ink); border-color: var(--brass); }
+
+.legal h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin: 0;
+}
+.legal h4 {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: .6875rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: var(--s4) 0 var(--s2);
+}
+/* Only when the heading genuinely opens the pane — :first-of-type would also
+   match the first h4 after an intro paragraph and collapse the gap. */
+.legal h4:first-child { margin-top: 0; }
+/* The dialog takes focus so screen readers land inside it; the role announces
+   that, so it does not also need a ring drawn round the entire panel. */
+.legal__box:focus { outline: none; }
+.legal p { font-size: .9375rem; line-height: 1.65; color: var(--muted); max-width: 62ch; }
+.legal p + p { margin-top: var(--s2); }
+.legal ul { display: grid; gap: .4rem; margin-top: var(--s2); }
+.legal li {
+  display: grid; grid-template-columns: 13px 1fr; gap: .6rem;
+  font-size: .9375rem; line-height: 1.6; color: var(--muted);
+}
+.legal li::before {
+  content: ""; width: 5px; height: 5px; margin-top: .55rem;
+  border: 1px solid var(--brass); border-radius: 50%;
+}
+.legal__meta {
+  margin-top: var(--s5);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line-soft);
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .06em;
+  color: var(--faint);
+  line-height: 1.9;
+}
+
+/* ============================================================
    PRINT
    ============================================================ */
 @media print {
@@ -893,7 +1004,7 @@
     --brass:#6E5011; --brass-ink:#6E5011; --brass-soft:rgba(0,0,0,.05); --jade:#1d5c46;
   }
   @page { size: A4; margin: 11mm 13mm; }
-  .rail, .ex__chev, .toast, .bg, .a11y, .skip { display: none !important; }
+  .rail, .ex__chev, .toast, .bg, .a11y, .skip, .legal, .foot { display: none !important; }
   .cv.a11y-gray { filter: none; }
   .more { font-size: 7.6pt; }
   .shell { display: block; }
@@ -1298,6 +1409,12 @@
             <span>BIPA 2026 — Application</span>
           </div>
         </div>
+
+        <div class="foot">
+          <span class="lbl">&copy; 2026 Yuval Gabay</span>
+          <button type="button" data-legal="access">Accessibility statement</button>
+          <button type="button" data-legal="privacy">Privacy</button>
+        </div>
       </div>
     </section>
 
@@ -1342,11 +1459,111 @@
     <button class="a11y__reset" id="a11yReset" type="button">Reset all</button>
 
     <p class="a11y__note">
-      Built to WCAG 2.2 AA: landmarks, keyboard access, visible focus, and
-      contrast checked in both themes. Your settings are remembered on this
-      device. Something not working for you?
-      <a href="mailto:yuvalgabay20@gmail.com?subject=Accessibility">Tell me</a>.
+      Your settings are remembered on this device.
+      <button type="button" data-legal="access" class="a11y__link">Read the accessibility statement</button>
     </p>
+  </div>
+</div>
+
+<div class="legal" id="legal" hidden>
+  <div class="legal__box" role="dialog" aria-modal="true" aria-labelledby="legalTitle" tabindex="-1" id="legalBox">
+    <div class="legal__head">
+      <h3 id="legalTitle">Accessibility statement</h3>
+      <button class="legal__x" type="button" id="legalClose" aria-label="Close">&times;</button>
+    </div>
+
+    <div id="legalAccess">
+      <p>
+        This page was built to be usable by everyone, including people who
+        navigate by keyboard, use a screen reader, need larger text, or find
+        movement on screen difficult.
+      </p>
+
+      <h4>Standard applied</h4>
+      <p>
+        Web Content Accessibility Guidelines (WCAG) 2.2, level AA — the standard
+        published as ISO/IEC 40500 and adopted in Israel as IS 5568.
+      </p>
+
+      <h4>What is in place</h4>
+      <ul>
+        <li>Every control is a real button or link, reachable and operable by keyboard alone, with a visible focus indicator.</li>
+        <li>A skip link jumps straight to the main content.</li>
+        <li>Text contrast meets AA in both the light and the dark theme; high contrast mode reaches 21:1.</li>
+        <li>Text scales to 150% without content being lost or overlapping.</li>
+        <li>The system setting for reduced motion is honoured automatically, before anyone touches a control.</li>
+        <li>Nothing flashes, nothing moves on its own in front of text, and no action is on a timer.</li>
+        <li>Adjustable settings for text size, contrast, spacing, font, link emphasis, motion, colour and cursor size.</li>
+      </ul>
+
+      <h4>Known limitations</h4>
+      <ul>
+        <li>The moving panel behind the page is decoration. It carries no information and is hidden from assistive technology, so a screen reader will not describe it. Turning on "Stop animation" removes it entirely.</li>
+        <li>The PDF version of this CV is a separate document and has not been tested to the same standard. Everything in it is on this page.</li>
+        <li>The page has been tested by keyboard, at browser zoom, in both themes and with contrast measured. It has not been tested with every screen reader and browser combination in use.</li>
+      </ul>
+
+      <h4>Found a problem?</h4>
+      <p>
+        Tell me and I will fix it. Email
+        <a href="mailto:yuvalgabay20@gmail.com?subject=Accessibility">yuvalgabay20@gmail.com</a>
+        or call <a href="tel:+972503456676">+972 50-345-6676</a>.
+      </p>
+
+      <div class="legal__meta">
+        Statement prepared 28 July 2026<br>
+        Applies to yuvalgabay20.github.io/cv
+      </div>
+    </div>
+
+    <div id="legalPrivacy" hidden>
+      <p>
+        This page collects nothing about you. There is no form, no sign-in and
+        no way for it to send anything anywhere.
+      </p>
+
+      <h4>No cookies, no tracking</h4>
+      <p>
+        No cookies are set. There is no analytics, no tag manager, no advertising
+        pixel and no third-party script. The page makes no network requests at
+        all once it has loaded — every font, style, script and image is part of
+        the page itself.
+      </p>
+
+      <h4>What is stored on your device</h4>
+      <p>
+        If you change something in the accessibility panel, that choice is saved
+        in your own browser's local storage so the page remembers it next time.
+        It never leaves your device and it is not readable by anyone else.
+        "Reset all" deletes it.
+      </p>
+      <p>
+        Because this storage only appears after you have asked for a setting, it
+        is strictly necessary for a function you requested, and no consent banner
+        is required for it.
+      </p>
+
+      <h4>Hosting</h4>
+      <p>
+        The page is served by GitHub Pages. Like any web host, GitHub processes
+        the technical data needed to deliver a page, which can include your IP
+        address. That happens under
+        <a href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement" rel="noopener noreferrer" target="_blank">GitHub's privacy statement</a>,
+        and I have no access to those logs.
+      </p>
+
+      <h4>The personal data on this page</h4>
+      <p>
+        The only personal data here is my own, published deliberately so that
+        people I am applying to can reach me. The page is marked <em>noindex</em>,
+        so search engines are asked not to list it.
+      </p>
+
+      <div class="legal__meta">
+        Last updated 28 July 2026<br>
+        Questions: <a href="mailto:yuvalgabay20@gmail.com">yuvalgabay20@gmail.com</a>
+      </div>
+    </div>
   </div>
 </div>
 </div>
@@ -1557,11 +1774,16 @@
       try { localStorage.removeItem(KEY); } catch (e) { /* nothing to clear */ }
     });
 
+    function legalOpen() {
+      var l = document.getElementById('legal');
+      return l && !l.hidden;
+    }
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !panel.hidden) { open(false); btn.focus(); }
+      // The statement overlay sits on top of this panel and owns Escape first.
+      if (e.key === 'Escape' && !panel.hidden && !legalOpen()) { open(false); btn.focus(); }
     });
     document.addEventListener('click', function (e) {
-      if (panel.hidden) return;
+      if (panel.hidden || legalOpen()) return;
       if (!document.getElementById('a11y').contains(e.target)) open(false);
     });
 
@@ -1575,6 +1797,59 @@
 
     load();
     apply();
+  })();
+
+  /* ---- accessibility statement / privacy --------------------------------
+     One overlay, two panes. Modal: focus goes in, Escape and the backdrop
+     bring it back out to whatever opened it. ------------------------------ */
+  (function () {
+    var overlay = document.getElementById('legal');
+    var box = document.getElementById('legalBox');
+    if (!overlay || !box) return;
+
+    var title = document.getElementById('legalTitle');
+    var panes = { access: document.getElementById('legalAccess'), privacy: document.getElementById('legalPrivacy') };
+    var titles = { access: 'Accessibility statement', privacy: 'Privacy' };
+    var opener = null;
+
+    function show(which) {
+      opener = document.activeElement;
+      title.textContent = titles[which] || titles.access;
+      panes.access.hidden = which !== 'access';
+      panes.privacy.hidden = which !== 'privacy';
+      overlay.hidden = false;
+      box.scrollTop = 0;
+      box.focus();
+    }
+    function hide() {
+      overlay.hidden = true;
+      if (opener && opener.focus) opener.focus();
+      opener = null;
+    }
+
+    root.querySelectorAll('[data-legal]').forEach(function (b) {
+      b.addEventListener('click', function () { show(b.getAttribute('data-legal')); });
+    });
+    document.getElementById('legalClose').addEventListener('click', hide);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) hide(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !overlay.hidden) { e.stopPropagation(); hide(); }
+    });
+
+    // Modal means modal: Tab must not walk out into the page behind it.
+    box.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var items = box.querySelectorAll('a[href], button:not([disabled])');
+      var vis = [];
+      items.forEach(function (el) { if (el.offsetParent !== null) vis.push(el); });
+      if (!vis.length) return;
+      var first = vis[0], last = vis[vis.length - 1];
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === box)) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
+    });
   })();
 
   /* ---- ambient 3D: a wireframe panel turning under a scan pass -----------
