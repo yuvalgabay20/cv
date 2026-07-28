@@ -1,0 +1,1325 @@
+<title>Yuval Gabay — CV</title>
+
+<style>
+/* ============================================================
+   TOKENS
+   Ground: ink-slate (blue-biased neutral, not grey)
+   Accent: brass — seal, scale, machined metal
+   Signal: jade — reserved for "running" state only
+   ============================================================ */
+:root {
+  --paper:      #E9EBEF;
+  --surface:    #F7F8FA;
+  --surface-2:  #FDFDFE;
+  --ink:        #12161D;
+  --muted:      #55606F;
+  --faint:      #7B8697;
+  --line:       #C7CDD7;
+  --line-soft:  #DCE1E8;
+  --brass:      #96660E;
+  --brass-ink:  #6E5011;
+  --brass-soft: rgba(150,102,14,.12);
+  --jade:       #0E6B4E;
+  --flaw:       #BE4A22;
+  --glow-warm:  rgba(214,146,40,.30);
+  --glow-cool:  rgba(52,116,168,.22);
+  --field:      .55;
+
+  --font-display: "Palatino Linotype","Book Antiqua",Palatino,"Iowan Old Style",Georgia,ui-serif,serif;
+  --font-body: "Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --font-mono: "Cascadia Mono",Consolas,ui-monospace,"SF Mono",Menlo,monospace;
+
+  --s1: .35rem; --s2: .6rem; --s3: 1rem; --s4: 1.6rem;
+  --s5: 2.4rem; --s6: 3.6rem; --s7: 5.5rem; --s8: 8rem;
+
+  --ease: cubic-bezier(.16,1,.3,1);
+  --rail: 236px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper:      #0A0D15;
+    --surface:    #151C28;
+    --surface-2:  #1A2230;
+    --ink:        #ECEAE4;
+    --muted:      #9DA6B4;
+    --faint:      #778394;
+    --line:       #2B3444;
+    --line-soft:  #1F2836;
+    --brass:      #E4AC48;
+    --brass-ink:  #F2C777;
+    --brass-soft: rgba(228,172,72,.14);
+    --jade:       #4FD1A0;
+    --flaw:       #F4794F;
+    --glow-warm:  rgba(228,172,72,.20);
+    --glow-cool:  rgba(58,124,186,.20);
+    --field:      .52;
+  }
+}
+:root[data-theme="dark"] {
+  --paper:#0A0D15; --surface:#151C28; --surface-2:#1A2230; --ink:#ECEAE4;
+  --muted:#9DA6B4; --faint:#778394; --line:#2B3444; --line-soft:#1F2836;
+  --brass:#E4AC48; --brass-ink:#F2C777; --brass-soft:rgba(228,172,72,.14); --jade:#4FD1A0;
+  --flaw:#F4794F; --glow-warm:rgba(228,172,72,.20); --glow-cool:rgba(58,124,186,.20); --field:.52;
+}
+:root[data-theme="light"] {
+  --paper:#E9EBEF; --surface:#F7F8FA; --surface-2:#FDFDFE; --ink:#12161D;
+  --muted:#55606F; --faint:#7B8697; --line:#C7CDD7; --line-soft:#DCE1E8;
+  --brass:#96660E; --brass-ink:#6E5011; --brass-soft:rgba(150,102,14,.12); --jade:#0E6B4E;
+  --flaw:#BE4A22; --glow-warm:rgba(214,146,40,.30); --glow-cool:rgba(52,116,168,.22); --field:.55;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+
+.cv {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  position: relative;
+}
+.cv :where(h1,h2,h3,h4,p,ul,ol,figure,dl) { margin: 0; }
+.cv ul { padding: 0; list-style: none; }
+
+.cv a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--brass-soft);
+  transition: border-color .2s var(--ease), color .2s var(--ease);
+}
+.cv a:hover { color: var(--brass-ink); border-bottom-color: var(--brass); }
+.cv :focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.lbl {
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.num { font-variant-numeric: tabular-nums; }
+
+/* ============================================================
+   AMBIENT LAYER
+   A wireframe panel turning under a scan pass — non-destructive
+   testing, which is where the eye for hidden faults came from.
+   ============================================================ */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+}
+.bg::before, .bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+.bg::before {
+  width: 62vw; height: 62vw;
+  right: -16vw; top: -22vw;
+  background: var(--glow-warm);
+}
+.bg::after {
+  width: 58vw; height: 58vw;
+  left: -20vw; bottom: -26vw;
+  background: var(--glow-cool);
+}
+#field {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  opacity: var(--field);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, transparent 34%, #000 68%);
+  mask-image: linear-gradient(to right, transparent 0, transparent 34%, #000 68%);
+}
+@media (max-width: 1023px) { #field { opacity: calc(var(--field) * .6); } }
+
+/* ============================================================
+   LAYOUT SHELL
+   ============================================================ */
+.shell { display: block; position: relative; z-index: 1; }
+
+.doc {
+  padding: 0 var(--s4) var(--s8);
+  max-width: 1180px;
+}
+@media (min-width: 1024px) {
+  .shell {
+    display: grid;
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    align-items: start;
+  }
+  .doc { padding: 0 var(--s6) var(--s8) var(--s6); }
+}
+
+/* ---- Left rail ---- */
+.rail {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line-soft);
+}
+.rail__inner { padding: var(--s3) var(--s4); }
+.rail__mark {
+  display: flex; align-items: baseline; gap: .5rem;
+  font-family: var(--font-mono); font-size: .75rem;
+  letter-spacing: .1em; color: var(--muted);
+  margin-bottom: var(--s3);
+}
+.rail__mark b { color: var(--brass); font-weight: 600; }
+
+.index {
+  display: flex; gap: .25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.index::-webkit-scrollbar { display: none; }
+.index__item {
+  flex: 0 0 auto;
+  display: flex; align-items: center; gap: .5rem;
+  padding: .45rem .7rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+  background: none;
+  font-family: var(--font-body);
+  font-size: .8125rem;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color .22s var(--ease), background-color .22s var(--ease), border-color .22s var(--ease);
+}
+.index__item:hover { color: var(--ink); background: var(--brass-soft); }
+.index__item[aria-current="true"] { color: var(--ink); border-color: var(--line); background: var(--surface); }
+.index__n {
+  font-family: var(--font-mono); font-size: .6875rem;
+  color: var(--faint); letter-spacing: .04em;
+}
+.index__item[aria-current="true"] .index__n { color: var(--brass); }
+
+.rail__foot { display: none; }
+
+@media (min-width: 1024px) {
+  .rail {
+    height: 100vh;
+    border-bottom: none;
+    border-right: 1px solid var(--line-soft);
+    display: flex; flex-direction: column;
+  }
+  .rail__inner {
+    padding: var(--s5) var(--s4) var(--s4) var(--s5);
+    display: flex; flex-direction: column; height: 100%;
+  }
+  .rail__mark { display: block; margin-bottom: var(--s5); line-height: 1.5; }
+  .index {
+    flex-direction: column; gap: 0;
+    overflow: visible;
+    position: relative;
+    padding-left: 13px;
+    border-left: 1px solid var(--line-soft);
+  }
+  .index__item {
+    width: 100%;
+    padding: .42rem .6rem .42rem .55rem;
+    gap: .7rem;
+  }
+  .index__bar {
+    position: absolute;
+    left: -1px; top: 0;
+    width: 2px; height: 0;
+    background: var(--brass);
+    transition: transform .45s var(--ease), height .45s var(--ease);
+  }
+  .rail__foot {
+    display: block;
+    margin-top: auto;
+    padding-top: var(--s4);
+    font-family: var(--font-mono);
+    font-size: .6875rem;
+    line-height: 1.9;
+    color: var(--faint);
+  }
+  .rail__foot span { color: var(--jade); }
+  .rail__foot i { font-style: normal; color: var(--brass); }
+  /* Let the ambient colour through behind the index — the canvas is masked
+     out this far left, so only the glow reaches it. */
+  .rail { background: transparent; }
+}
+
+/* ============================================================
+   MASTHEAD
+   ============================================================ */
+.mast {
+  position: relative;
+  padding: var(--s6) 0 var(--s6);
+  border-bottom: 1px solid var(--line-soft);
+  overflow: hidden;
+}
+@media (min-width: 768px) { .mast { padding: var(--s7) 0 var(--s6); } }
+
+.mast__caption {
+  display: flex; flex-wrap: wrap; gap: .5rem 1.4rem;
+  padding-bottom: var(--s4);
+  border-bottom: 1px solid var(--line-soft);
+  margin-bottom: var(--s5);
+}
+.mast__caption span { display: inline-flex; gap: .5rem; }
+.mast__caption i { font-style: normal; color: var(--ink); }
+
+.mast__name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 9.5vw, 6.5rem);
+  line-height: .95;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  margin-bottom: var(--s4);
+}
+.mast__name em { font-style: italic; color: var(--brass); }
+
+.mast__thesis {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+  line-height: 1.4;
+  max-width: 56ch;
+  color: var(--ink);
+  text-wrap: balance;
+  margin-bottom: var(--s2);
+}
+/* Keep each role intact — "Graphic / designer" across a line break reads badly. */
+.nb { white-space: nowrap; }
+.mast__sub {
+  max-width: 56ch;
+  color: var(--ink);
+  font-size: 1.0625rem;
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.clause {
+  padding: var(--s6) 0;
+  border-bottom: 1px solid var(--line-soft);
+  display: grid;
+  /* minmax(0,…) and min-width:0 below: without them the grid items keep their
+     max-content width and the whole page scrolls sideways on a phone. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s4);
+}
+.clause:last-of-type { border-bottom: none; }
+@media (min-width: 1280px) {
+  .clause {
+    grid-template-columns: minmax(0, 1fr) 200px;
+    column-gap: var(--s5);
+    align-items: start;
+  }
+  .clause__note { grid-column: 2; grid-row: 1 / span 2; position: sticky; top: var(--s5); }
+}
+
+.clause__head { grid-column: 1; margin-bottom: 0; min-width: 0; }
+/* Structured content (cards, tables, timelines) fills the column;
+   running prose keeps a reading measure of its own. */
+.clause__body { grid-column: 1; max-width: none; min-width: 0; }
+.prose { max-width: 68ch; }
+
+.clause__addr {
+  display: inline-flex; align-items: center; gap: .55rem;
+  background: none; border: none; padding: 0;
+  cursor: pointer;
+  margin-bottom: .55rem;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  transition: color .2s var(--ease);
+}
+.clause__addr:hover { color: var(--brass); }
+.clause__addr::after { content: "¶"; opacity: 0; transition: opacity .2s var(--ease); }
+.clause__addr:hover::after { opacity: 1; }
+
+.clause__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+  letter-spacing: -.015em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+/* Margin notes */
+.clause__note {
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  line-height: 1.75;
+  color: var(--faint);
+  border-left: 1px solid var(--line-soft);
+  padding-left: var(--s3);
+}
+.clause__note strong {
+  display: block; color: var(--brass); font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  font-size: .625rem; margin-bottom: .5rem;
+}
+@media (max-width: 1279px) {
+  .clause__note { border-left: 2px solid var(--brass-soft); background: var(--surface); padding: var(--s3); border-radius: 2px; }
+}
+
+.prose p + p { margin-top: var(--s3); }
+.prose strong { font-weight: 600; }
+
+/* ============================================================
+   PROJECTS
+   ============================================================ */
+.exhibits { display: grid; gap: var(--s2); }
+
+.ex {
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  background: var(--surface);
+  overflow: hidden;
+  transition: border-color .3s var(--ease), background-color .3s var(--ease);
+}
+.ex:hover { border-color: var(--line); }
+.ex[data-open="true"] { border-color: var(--line); background: var(--surface-2); }
+
+.ex__btn {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3);
+  background: none; border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+@media (min-width: 640px) { .ex__btn { padding: var(--s3) var(--s4); gap: var(--s4); } }
+
+.ex__tag {
+  font-family: var(--font-mono);
+  font-size: .625rem;
+  letter-spacing: .12em;
+  color: var(--brass);
+  border: 1px solid var(--brass-soft);
+  background: var(--brass-soft);
+  padding: .3rem .45rem;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.ex__name {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+}
+.ex__role { display: block; font-family: var(--font-body); font-size: .8125rem; color: var(--muted); margin-top: .2rem; }
+.ex__chev {
+  width: 22px; height: 22px; flex: none;
+  color: var(--faint);
+  transition: transform .4s var(--ease), color .3s var(--ease);
+}
+.ex[data-open="true"] .ex__chev { transform: rotate(180deg); color: var(--brass); }
+
+.ex__wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .5s var(--ease);
+}
+.ex[data-open="true"] .ex__wrap { grid-template-rows: 1fr; }
+.ex__inner { overflow: hidden; }
+.ex__content {
+  margin: 0 var(--s3);
+  padding: 0 0 var(--s4);
+  border-top: 1px solid var(--line-soft);
+  color: var(--muted);
+  font-size: .9375rem;
+}
+@media (min-width: 640px) { .ex__content { margin: 0 var(--s4); padding-bottom: var(--s5); } }
+.ex__content > * { margin-top: var(--s3); }
+
+.ex__list { display: grid; gap: .6rem; }
+.ex__list li { display: grid; grid-template-columns: 14px 1fr; gap: .7rem; align-items: start; }
+.ex__list li::before {
+  content: "";
+  width: 5px; height: 5px; margin-top: .55rem;
+  border: 1px solid var(--brass); border-radius: 50%;
+}
+.ex__stack { display: flex; flex-wrap: wrap; gap: .35rem; padding-top: var(--s2); }
+
+.chip {
+  font-family: var(--font-mono); font-size: .6875rem;
+  letter-spacing: .04em;
+  color: var(--muted);
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+  padding: .25rem .5rem;
+  background: var(--paper);
+}
+.chip--live { color: var(--jade); border-color: currentColor; }
+.chip--wip { color: var(--brass); border-color: currentColor; background: var(--brass-soft); }
+
+/* "and others" — deliberately not a chip: it is not a tool, it is a note. */
+.more {
+  align-self: center;
+  font-size: .8125rem;
+  color: var(--faint);
+  font-style: italic;
+  padding-left: .35rem;
+}
+
+/* ============================================================
+   FIGURES
+   ============================================================ */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  background: var(--line-soft);
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: var(--s4);
+}
+.fig { background: var(--surface); padding: var(--s3); }
+.fig__v {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  line-height: 1;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--brass);
+  display: flex; align-items: baseline; gap: .12em;
+}
+.fig__u { font-size: .95rem; color: var(--muted); }
+.fig__k { display: block; margin-top: .5rem; }
+
+/* ============================================================
+   BACKGROUND
+   ============================================================ */
+.record { display: grid; gap: 0; }
+.rec {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .35rem;
+  padding: var(--s4) 0;
+  border-top: 1px solid var(--line-soft);
+}
+.rec:first-child { border-top: none; padding-top: 0; }
+@media (min-width: 700px) {
+  .rec { grid-template-columns: 158px minmax(0,1fr); gap: var(--s4); }
+}
+.rec__when { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .04em; color: var(--faint); padding-top: .35rem; }
+.rec__what { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.3; }
+.rec__where { font-size: .875rem; color: var(--brass); margin: .2rem 0 .5rem; }
+.rec__desc { font-size: .9375rem; color: var(--muted); max-width: 58ch; }
+
+/* ============================================================
+   SKILLS + LANGUAGES
+   ============================================================ */
+.matrix { display: grid; gap: var(--s4); }
+.mrow { display: grid; gap: .7rem; }
+@media (min-width: 700px) { .mrow { grid-template-columns: 158px minmax(0,1fr); gap: var(--s4); align-items: start; } }
+.mrow__k { padding-top: .2rem; }
+.mrow__v { display: flex; flex-wrap: wrap; gap: .35rem; }
+
+.lang { display: grid; gap: .9rem; }
+.lang__row { display: grid; grid-template-columns: 92px 1fr auto; gap: var(--s3); align-items: center; }
+.lang__n { font-size: .9375rem; }
+.lang__t { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+/* Filled by default: if the script never runs, the bars are still correct.
+   Once JS marks the page ready they start empty and fill on reveal.
+   Widths live here rather than in a style="" attribute so the page's CSP can
+   be signed with a hash instead of allowing inline styles wholesale. */
+.lang__f { display: block; height: 100%; background: var(--brass); transform-origin: left center; }
+.lang__f--full { width: 100%; }
+.lang__f--high { width: 90%; }
+.cv.ready .lang__f { transform: scaleX(0); transition: transform 1.1s var(--ease); }
+.cv.ready .reveal.in .lang__f { transform: scaleX(1); }
+.lang__l { font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .08em; color: var(--muted); }
+
+/* ============================================================
+   FIT
+   ============================================================ */
+.fit { display: grid; gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); border-radius: 3px; overflow: hidden; }
+.fit__row { background: var(--surface); padding: var(--s3); display: grid; gap: .5rem; }
+@media (min-width: 760px) {
+  .fit__row { grid-template-columns: 218px minmax(0,1fr); gap: var(--s4); align-items: start; padding: var(--s4); }
+}
+.fit__k { font-family: var(--font-display); font-size: 1.0625rem; color: var(--ink); line-height: 1.35; }
+.fit__v { font-size: .9375rem; color: var(--muted); }
+
+/* ============================================================
+   AVAILABILITY
+   ============================================================ */
+.avail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .6rem var(--s3);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--jade);
+  border-radius: 3px;
+  background: var(--surface);
+  padding: var(--s3) var(--s4);
+}
+.avail__mark {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--jade);
+  white-space: nowrap;
+}
+.avail__mark b { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.avail__t {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+/* ============================================================
+   SIGN-OFF
+   ============================================================ */
+.sign {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: var(--s5) var(--s4);
+  background: var(--surface);
+  margin-top: var(--s5);
+}
+@media (min-width: 700px) { .sign { padding: var(--s5); } }
+.sign__k { display: block; margin-bottom: var(--s3); color: var(--brass); }
+.sign__c { display: grid; gap: .55rem; }
+.sign__c a, .sign__c span { display: inline-flex; gap: .8rem; align-items: baseline; font-family: var(--font-mono); font-size: .875rem; width: fit-content; }
+.sign__c b { color: var(--faint); font-weight: 400; font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; min-width: 62px; }
+.sign__rule { height: 1px; background: var(--line); margin: var(--s5) 0 var(--s3); }
+.sign__f { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s2); }
+
+/* ============================================================
+   MOTION
+   ============================================================ */
+.rise { opacity: 0; transform: translateY(14px); }
+.cv.ready .rise { transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.rise.in { opacity: 1; transform: none; }
+
+.reveal { opacity: 0; transform: translateY(20px); }
+.cv.ready .reveal { transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+
+.toast {
+  position: fixed; left: 50%; bottom: 26px;
+  transform: translate(-50%, 14px);
+  background: var(--ink); color: var(--paper);
+  font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em;
+  padding: .6rem 1rem; border-radius: 3px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+  z-index: 90;
+}
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cv *, .cv *::before, .cv *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+  .rise, .reveal { opacity: 1; transform: none; }
+  .cv.ready .lang__f { transform: none; }
+}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@media print {
+  :root {
+    --paper:#fff; --surface:#fff; --surface-2:#fff; --ink:#000;
+    --muted:#2b2b2b; --faint:#4a4a4a; --line:#999; --line-soft:#c8c8c8;
+    --brass:#6E5011; --brass-ink:#6E5011; --brass-soft:rgba(0,0,0,.05); --jade:#1d5c46;
+  }
+  @page { size: A4; margin: 11mm 13mm; }
+  .rail, .ex__chev, .toast, .bg { display: none !important; }
+  .more { font-size: 7.6pt; }
+  .shell { display: block; }
+  .cv { font-size: 8.7pt; line-height: 1.4; background: #fff; }
+  .doc { padding: 0; max-width: none; }
+
+  .mast { padding: 0 0 6pt; border-bottom: .6pt solid #888; }
+  .mast__caption { padding-bottom: 4pt; margin-bottom: 7pt; gap: 3pt 12pt; }
+  /* One line on paper — the <br> is suppressed, so the space it carried
+     has to be restored or the two names collide. */
+  .mast__name { font-size: 22pt; line-height: 1; margin-bottom: 5pt; }
+  .mast__name br { display: none; }
+  .mast__name em::before { content: "\00A0"; }
+  .mast__thesis { font-size: 10.5pt; line-height: 1.28; max-width: none; margin-bottom: 4pt; }
+  .mast__sub { font-size: 8.7pt; max-width: none; margin-bottom: 0; }
+
+  .clause { padding: 4pt 0; display: block; border-bottom: .4pt solid #ccc; }
+  .clause__head { margin-bottom: 4pt; }
+  .clause__addr { margin-bottom: 1pt; font-size: 6.4pt; }
+  .clause__title { font-size: 11.5pt; }
+  .clause__body { max-width: none; }
+  .clause__note {
+    display: block; break-inside: avoid;
+    margin-top: 5pt; padding: 3pt 6pt;
+    border: none; border-left: 1.2pt solid #6E5011;
+    background: #f2f2f2;
+    font-size: 7.4pt; line-height: 1.35; color: #333;
+  }
+  .clause__note strong { display: inline; margin: 0 4pt 0 0; font-size: 6.5pt; }
+  .prose p + p { margin-top: 4pt; }
+
+  .ex__wrap { grid-template-rows: 1fr !important; }
+  .ex__inner { overflow: visible !important; }
+  .ex { break-inside: avoid; border-color: #bbb; margin-bottom: 3pt; }
+  .ex__btn { padding: 6pt 8pt; gap: 8pt; }
+  .ex__name { font-size: 11pt; }
+  .ex__role { font-size: 8pt; }
+  .ex__content { font-size: 8.6pt; padding-bottom: 7pt; margin: 0 8pt; }
+  .ex__content > * { margin-top: 5pt; }
+  .ex__list { gap: 3pt; }
+  .ex__list li::before { margin-top: 4pt; }
+  .chip { font-size: 6.8pt; padding: 1pt 4pt; }
+  .ex__stack { padding-top: 3pt; gap: 2.5pt; }
+
+  .figures, .fit, .slots, .record, .matrix, .lang { break-inside: avoid; }
+  .figures { margin-top: 6pt; }
+  .fig { padding: 5pt 7pt; }
+  .fig__v { font-size: 14pt; }
+  .fig__k { margin-top: 1pt; font-size: 6.2pt; }
+  .rec { padding: 5pt 0; }
+  .rec__what { font-size: 10pt; }
+  .rec__where { font-size: 7.8pt; margin: 1pt 0 2pt; }
+  .rec__desc, .fit__v { font-size: 8.4pt; max-width: none; }
+  .matrix { gap: 5pt; }
+  .fit__row { padding: 5pt 8pt; }
+  .fit__k { font-size: 9.5pt; }
+  .lang { gap: 4pt; }
+  .avail { padding: 5pt 8pt; break-inside: avoid; }
+  .avail__mark { font-size: 7pt; }
+  .avail__t { font-size: 11pt; }
+
+  .rise, .reveal { opacity: 1 !important; transform: none !important; }
+  .cv.ready .lang__f { transform: none !important; }
+  /* Contact is already in the masthead on paper — the closing card is a
+     screen affordance and adds nothing to the printed page. */
+  .sign { display: none; }
+}
+</style>
+
+<div class="cv" id="cv">
+<div class="bg" aria-hidden="true"><canvas id="field"></canvas></div>
+<div class="shell">
+
+  <!-- ══════════ RAIL ══════════ -->
+  <nav class="rail" aria-label="Contents">
+    <div class="rail__inner">
+      <div class="rail__mark"><b>YG</b> <span>CV — BIPA 2026</span></div>
+      <div class="index" id="index">
+        <span class="index__bar" id="bar" aria-hidden="true"></span>
+        <button class="index__item" data-go="s1"><span class="index__n">01</span> About me</button>
+        <button class="index__item" data-go="s2"><span class="index__n">02</span> What I built</button>
+        <button class="index__item" data-go="s3"><span class="index__n">03</span> Background</button>
+        <button class="index__item" data-go="s4"><span class="index__n">04</span> Skills</button>
+        <button class="index__item" data-go="s6"><span class="index__n">05</span> Why I fit</button>
+        <button class="index__item" data-go="s7"><span class="index__n">06</span> Availability</button>
+      </div>
+      <div class="rail__foot">
+        Lead OS &nbsp;<span>● running</span><br>
+        Handover &nbsp;<i>● building</i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════ DOCUMENT ══════════ -->
+  <main class="doc">
+
+    <!-- MASTHEAD -->
+    <header class="mast">
+      <div class="mast__caption lbl rise" data-d="0">
+        <span>Born <i class="num">2003</i></span>
+        <span>Based in <i>Israel</i></span>
+        <span>Email <a href="mailto:yuvalgabay20@gmail.com"><i>yuvalgabay20@gmail.com</i></a></span>
+        <span>Phone <a href="tel:+972503456676"><i class="num">+972 50-345-6676</i></a></span>
+        <span>Applying to <i>BIPA 2026</i></span>
+      </div>
+
+      <h1 class="mast__name rise" data-d="1">Yuval<br><em>Gabay</em></h1>
+
+      <p class="mast__thesis rise" data-d="2">
+        <span class="nb">Law student.</span> <span class="nb">Graphic designer.</span>
+        <span class="nb">Self-taught builder.</span>
+      </p>
+
+      <p class="mast__sub rise" data-d="3">
+        I built both apps below for my own work, and I use them every day.
+      </p>
+    </header>
+
+    <!-- 01 ABOUT -->
+    <section class="clause" id="s1">
+      <div class="clause__head">
+        <button class="clause__addr" data-anchor="s1">01 — About me</button>
+        <h2 class="clause__title reveal">Who I am</h2>
+      </div>
+      <div class="clause__body prose reveal">
+        <p>
+          I am 23. I am in my first year of law school, and next to my studies I build AI
+          automations, apps and software.
+        </p>
+        <p>
+          <strong>I am not a programmer.</strong> I don't write code from scratch. I describe the
+          system I need and build it with AI tools. Both apps below were made that way.
+        </p>
+        <p>
+          Before college I served <strong>2 years and 8 months in the Israeli Air Force</strong>
+          as a non-destructive testing (NDT) technician, finding cracks inside aircraft parts that
+          nobody can see from the outside. In that job, "almost right" means wrong. I still work
+          that way.
+        </p>
+        <div class="figures">
+          <div class="fig">
+            <div class="fig__v">2</div>
+            <span class="lbl fig__k">Apps I built</span>
+          </div>
+          <div class="fig">
+            <div class="fig__v">2<span class="fig__u">y 8m</span></div>
+            <span class="lbl fig__k">Air Force service</span>
+          </div>
+          <div class="fig">
+            <div class="fig__v">7<span class="fig__u">yrs</span></div>
+            <span class="lbl fig__k">Design work, in total</span>
+          </div>
+        </div>
+      </div>
+      <aside class="clause__note reveal">
+        <strong>Note</strong>
+        I built both apps alone, while studying. Neither was a school project.
+      </aside>
+    </section>
+
+    <!-- 02 WHAT I BUILT -->
+    <section class="clause" id="s2">
+      <div class="clause__head">
+        <button class="clause__addr" data-anchor="s2">02 — What I built</button>
+        <h2 class="clause__title reveal">Two apps</h2>
+      </div>
+      <div class="clause__body reveal">
+        <div class="exhibits">
+
+          <article class="ex" data-open="true">
+            <button class="ex__btn" aria-expanded="true">
+              <span class="ex__tag">01</span>
+              <span>
+                <span class="ex__name">Lead OS</span>
+                <span class="ex__role">A Facebook agent that posts for me and finds me customers</span>
+              </span>
+              <svg class="ex__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="ex__wrap"><div class="ex__inner"><div class="ex__content">
+              <ul class="ex__list">
+                <li>It posts my content to Facebook groups on a schedule. I don't open Facebook to do it.</li>
+                <li>It also reads those groups and looks for people asking for what I sell. When it finds one, it sends the lead to my phone straight away.</li>
+                <li>It has run by itself, every day, since July 2026.</li>
+              </ul>
+              <div class="ex__stack">
+                <span class="chip chip--live">Running</span>
+                <span class="chip">Claude</span><span class="chip">Automation</span>
+                <span class="chip">Scheduling</span><span class="chip">Phone alerts</span>
+              </div>
+            </div></div></div>
+          </article>
+
+          <article class="ex">
+            <button class="ex__btn" aria-expanded="false">
+              <span class="ex__tag">02</span>
+              <span>
+                <span class="ex__name">Handover</span>
+                <span class="ex__role">Making apartment handover inspections faster</span>
+              </span>
+              <svg class="ex__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="ex__wrap"><div class="ex__inner"><div class="ex__content">
+              <ul class="ex__list">
+                <li>When a developer hands a new apartment to the buyer, someone walks through it and writes down every defect. Here it is still done on paper, and then typed up again later.</li>
+                <li>My app takes the inspector through the apartment room by room, records each defect with a photo, and produces the report that the buyer and the developer sign.</li>
+                <li>The whole point is speed: finish the report on site, instead of doing the work twice.</li>
+                <li>Fast enough to use standing in an empty room, with one hand.</li>
+              </ul>
+              <div class="ex__stack">
+                <span class="chip chip--wip">In development</span>
+                <span class="chip">Claude</span><span class="chip">Mobile app</span>
+              </div>
+            </div></div></div>
+          </article>
+
+        </div>
+      </div>
+      <aside class="clause__note reveal">
+        <strong>How I work</strong>
+        Build it. Use it myself. Let it break. Fix the reason, not the symptom.
+      </aside>
+    </section>
+
+    <!-- 03 BACKGROUND -->
+    <section class="clause" id="s3">
+      <div class="clause__head">
+        <button class="clause__addr" data-anchor="s3">03 — Background</button>
+        <h2 class="clause__title reveal">Studies, work and service</h2>
+      </div>
+      <div class="clause__body reveal">
+        <div class="record">
+          <div class="rec">
+            <div class="rec__when num">Nov 2025 — now</div>
+            <div>
+              <div class="rec__what">Law student, first year</div>
+              <div class="rec__where">Sapir Academic College, Israel</div>
+              <p class="rec__desc">
+                Heading toward contract law and the rules around technology.
+              </p>
+            </div>
+          </div>
+          <div class="rec">
+            <div class="rec__when num">7 years, on and off</div>
+            <div>
+              <div class="rec__what">Freelance graphic designer</div>
+              <div class="rec__where">Independent — brands, campaigns, social content</div>
+              <p class="rec__desc">
+                Real clients, real briefs, real deadlines. Seven years of design work in total,
+                around school, the army and college.
+              </p>
+            </div>
+          </div>
+          <div class="rec">
+            <div class="rec__when num">Dec 2021 — Aug 2024</div>
+            <div>
+              <div class="rec__what">NDT technician — non-destructive testing</div>
+              <div class="rec__where">Israeli Air Force — 2 years 8 months</div>
+              <p class="rec__desc">
+                I checked aircraft parts for cracks and faults hidden inside the material, without
+                damaging the part. I worked mainly with <strong>eddy current testing</strong>,
+                <strong>magnetic particle testing</strong> and <strong>dye penetrant testing</strong>,
+                and to a lesser extent with <strong>ultrasonic testing</strong>. Every check written
+                down. A missed fault is not an option.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 TOOLS -->
+    <section class="clause" id="s4">
+      <div class="clause__head">
+        <button class="clause__addr" data-anchor="s4">04 — Skills</button>
+        <h2 class="clause__title reveal">What I work with</h2>
+      </div>
+      <div class="clause__body reveal">
+        <div class="matrix">
+          <div class="mrow">
+            <div class="mrow__k lbl">I build with</div>
+            <div class="mrow__v">
+              <span class="chip">Claude</span><span class="chip">ChatGPT</span>
+              <span class="chip">Gemini</span>
+              <span class="more">and many others</span>
+            </div>
+          </div>
+          <div class="mrow">
+            <div class="mrow__k lbl">Design</div>
+            <div class="mrow__v">
+              <span class="chip">Photoshop</span><span class="chip">Canva</span>
+              <span class="chip">AI image tools</span><span class="chip">AI video tools</span>
+              <span class="chip">Hyperframes</span><span class="chip">CapCut</span>
+              <span class="chip">Sony Vegas</span>
+              <span class="more">and many others</span>
+            </div>
+          </div>
+          <div class="mrow">
+            <div class="mrow__k lbl">Interested in</div>
+            <div class="mrow__v">
+              <span class="chip">Contract law</span><span class="chip">Law &amp; technology</span>
+              <span class="chip">AI</span><span class="chip">Startups</span>
+            </div>
+          </div>
+          <div class="mrow">
+            <div class="mrow__k lbl">Languages</div>
+            <div class="lang">
+              <div class="lang__row">
+                <span class="lang__n">Hebrew</span>
+                <span class="lang__t"><b class="lang__f lang__f--full"></b></span>
+                <span class="lang__l">Native</span>
+              </div>
+              <div class="lang__row">
+                <span class="lang__n">English</span>
+                <span class="lang__t"><b class="lang__f lang__f--high"></b></span>
+                <span class="lang__l">Excellent</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="clause__note reveal">
+        <strong>Honestly</strong>
+        I am not a developer. I am someone who needed an automation to exist, and did not accept
+        "I don't know how" as a reason it couldn't.
+      </aside>
+    </section>
+
+    <!-- 06 FIT -->
+    <section class="clause" id="s6">
+      <div class="clause__head">
+        <button class="clause__addr" data-anchor="s6">05 — Why I fit</button>
+        <h2 class="clause__title reveal">Why I fit BIPA</h2>
+      </div>
+      <div class="clause__body reveal">
+        <div class="fit">
+          <div class="fit__row">
+            <div class="fit__k">I start things myself</div>
+            <div class="fit__v">
+              I built two apps nobody asked me to build, while studying law and working as a designer.
+              I find the problem first, then I build the answer.
+            </div>
+          </div>
+          <div class="fit__row">
+            <div class="fit__k">I solve problems I don't know how to solve yet</div>
+            <div class="fit__v">
+              I had no training in software. I built it anyway. Starting from not knowing is normal
+              for me, not scary.
+            </div>
+          </div>
+          <div class="fit__row">
+            <div class="fit__k">I work in small steps</div>
+            <div class="fit__v">
+              I build a small version, use it for real, see what breaks, fix it, repeat. It is the
+              only way one person gets anything finished.
+            </div>
+          </div>
+          <div class="fit__row">
+            <div class="fit__k">I work well with people who are not like me</div>
+            <div class="fit__v">
+              Air Force service in mixed technical teams under pressure. Design clients who rarely
+              want what they first asked for.
+            </div>
+          </div>
+          <div class="fit__row">
+            <div class="fit__k">What I bring to a team</div>
+            <div class="fit__v">
+              I look at a solution from the legal side too — contracts, responsibility, data, the
+              new AI rules. For a challenge from a Bavarian company, those questions come before
+              launch, not after.
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="clause__note reveal">
+        <strong>Fields I'd choose</strong>
+        Law, contracts, corporations, startups, AI, technology.
+      </aside>
+    </section>
+
+    <!-- 07 AVAILABILITY -->
+    <section class="clause" id="s7">
+      <div class="clause__head">
+        <button class="clause__addr" data-anchor="s7">06 — Availability</button>
+        <h2 class="clause__title reveal">For BIPA 2026</h2>
+      </div>
+      <div class="clause__body reveal">
+        <div class="avail">
+          <span class="avail__mark"><b></b> Available</span>
+          <p class="avail__t">for every phase of the program.</p>
+        </div>
+        <div class="sign">
+          <span class="lbl sign__k">Contact</span>
+          <div class="sign__c">
+            <a href="mailto:yuvalgabay20@gmail.com"><b>Email</b> yuvalgabay20@gmail.com</a>
+            <a href="tel:+972503456676"><b>Phone</b> +972 50-345-6676</a>
+            <span><b>Based</b> Israel</span>
+          </div>
+          <div class="sign__rule"></div>
+          <div class="sign__f lbl">
+            <span>Yuval Gabay — CV</span>
+            <span>BIPA 2026 — Application</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite">Link copied</div>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('cv');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- load sequence ----------------------------------------------------
+     Timer-driven, not rAF: a page opened in a background tab must not stay
+     blank until it happens to be looked at. ------------------------------- */
+  setTimeout(function () {
+    root.classList.add('ready');
+    root.querySelectorAll('.rise').forEach(function (el) {
+      var d = parseInt(el.getAttribute('data-d') || '0', 10);
+      setTimeout(function () { el.classList.add('in'); }, reduce ? 0 : 90 + d * 110);
+    });
+  }, 0);
+
+  /* ---- scroll reveals --------------------------------------------------- */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: .1 });
+  root.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  /* ---- index: scrollspy + moving bar ------------------------------------ */
+  var buttons = Array.prototype.slice.call(root.querySelectorAll('.index__item'));
+  var bar = document.getElementById('bar');
+  var sections = buttons.map(function (b) { return document.getElementById(b.getAttribute('data-go')); });
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = document.getElementById(b.getAttribute('data-go'));
+      if (t) t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+
+  function setActive(i) {
+    buttons.forEach(function (b, j) { b.setAttribute('aria-current', j === i ? 'true' : 'false'); });
+    var b = buttons[i];
+    if (!b) return;
+    if (bar && window.innerWidth >= 1024) {
+      bar.style.height = b.offsetHeight + 'px';
+      bar.style.transform = 'translateY(' + b.offsetTop + 'px)';
+    }
+    if (window.innerWidth < 1024) {
+      b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduce ? 'auto' : 'smooth' });
+    }
+  }
+
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var i = sections.indexOf(e.target);
+      if (i > -1) setActive(i);
+    });
+  }, { rootMargin: '-25% 0px -65% 0px' });
+  sections.forEach(function (s) { if (s) spy.observe(s); });
+  setActive(0);
+
+  function resync() {
+    var i = buttons.findIndex(function (b) { return b.getAttribute('aria-current') === 'true'; });
+    setActive(i > -1 ? i : 0);
+  }
+  window.addEventListener('resize', resync);
+  window.addEventListener('load', resync);
+  setTimeout(resync, 300);
+
+  /* ---- projects --------------------------------------------------------- */
+  root.querySelectorAll('.ex__btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var card = btn.closest('.ex');
+      var open = card.getAttribute('data-open') === 'true';
+      card.setAttribute('data-open', open ? 'false' : 'true');
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  });
+
+  /* ---- section anchors --------------------------------------------------- */
+  var toast = document.getElementById('toast');
+  var toastT;
+  root.querySelectorAll('.clause__addr').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var id = a.getAttribute('data-anchor');
+      toast.classList.add('on');
+      clearTimeout(toastT);
+      toastT = setTimeout(function () { toast.classList.remove('on'); }, 1600);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(location.href.split('#')[0] + '#' + id).catch(function () {});
+      }
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+
+  /* ---- printing: snap everything to its final state ---------------------- */
+  function snap() {
+    root.classList.add('ready');
+    root.querySelectorAll('.rise, .reveal').forEach(function (el) { el.classList.add('in'); });
+    root.querySelectorAll('.ex').forEach(function (c) {
+      c.setAttribute('data-open', 'true');
+      var b = c.querySelector('.ex__btn');
+      if (b) b.setAttribute('aria-expanded', 'true');
+    });
+  }
+  window.addEventListener('beforeprint', snap);
+  if (window.matchMedia) {
+    var mq = window.matchMedia('print');
+    if (mq.addEventListener) mq.addEventListener('change', function (e) { if (e.matches) snap(); });
+  }
+
+  /* ---- safety net: nothing on screen may stay invisible ------------------
+     Only touches elements already in view, so reveals below the fold still
+     play normally. --------------------------------------------------------- */
+  setTimeout(function () {
+    root.querySelectorAll('.rise:not(.in), .reveal:not(.in)').forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
+    });
+  }, 2500);
+
+  /* ---- ambient 3D: a wireframe panel turning under a scan pass -----------
+     Hand-rolled projection — no library is reachable from a published page,
+     and 600 line segments do not need one. -------------------------------- */
+  var field = document.getElementById('field');
+  if (field && field.getContext) {
+    var fx = field.getContext('2d');
+    var NU = 26, NV = 15;
+    var grid = [];
+    for (var iu = 0; iu < NU; iu++) {
+      grid[iu] = [];
+      for (var iv = 0; iv < NV; iv++) {
+        var u = -1 + 2 * iu / (NU - 1), v = -1 + 2 * iv / (NV - 1);
+        grid[iu][iv] = {
+          u: u, v: v,
+          x: u * 1.6,
+          y: v * 0.95,
+          z: 0.45 * Math.cos(u * 1.25) - 0.32 * v * v
+        };
+      }
+    }
+    // the flaw: one spot inside the material that the scan finds each pass
+    var FU = 0.34, FV = -0.22;
+    var fw = 0, fh = 0, fdpr = 1, ft = 0, frf = null, flast = 0;
+
+    function fresize() {
+      fdpr = Math.min(window.devicePixelRatio || 1, 2);
+      fw = field.clientWidth; fh = field.clientHeight;
+      if (!fw || !fh) return;
+      field.width = Math.round(fw * fdpr);
+      field.height = Math.round(fh * fdpr);
+      fx.setTransform(fdpr, 0, 0, fdpr, 0, 0);
+    }
+
+    function project(p, cy_, sy_, cx_, sx_, cxp, cyp, scale) {
+      var x1 = p.x * cy_ + p.z * sy_;
+      var z1 = -p.x * sy_ + p.z * cy_;
+      var y2 = p.y * cx_ - z1 * sx_;
+      var z2 = p.y * sx_ + z1 * cx_;
+      var k = scale / (4.4 + z2);
+      return { sx: cxp + x1 * k, sy: cyp + y2 * k, d: z2 };
+    }
+
+    function fdraw(now) {
+      frf = requestAnimationFrame(fdraw);
+      if (now - flast < 28) return;      // ~35fps is plenty for ambience
+      flast = now;
+      if (!fw || !fh) { fresize(); if (!fw) return; }
+
+      var css = getComputedStyle(document.documentElement);
+      var brass = css.getPropertyValue('--brass').trim() || '#E4AC48';
+      var flaw = css.getPropertyValue('--flaw').trim() || '#F4794F';
+
+      var ry = ft * 0.16;
+      var rx = -0.46 + Math.sin(ft * 0.21) * 0.13;
+      var cyr = Math.cos(ry), syr = Math.sin(ry);
+      var cxr = Math.cos(rx), sxr = Math.sin(rx);
+      var scale = Math.min(fw, fh) * 0.60;
+      var cxp = fw * 0.75, cyp = fh * 0.50;
+
+      // the scan sweeps across the panel, the way a probe is walked over it
+      var scan = Math.sin(ft * 0.38);
+
+      fx.clearRect(0, 0, fw, fh);
+      fx.lineCap = 'round';
+
+      var proj = [];
+      for (var a = 0; a < NU; a++) {
+        proj[a] = [];
+        for (var b = 0; b < NV; b++) proj[a][b] = project(grid[a][b], cyr, syr, cxr, sxr, cxp, cyp, scale);
+      }
+
+      function edge(p1, p2, u1, u2) {
+        var um = (u1 + u2) / 2;
+        var near = Math.max(0, 1 - Math.abs(um - scan) / 0.26);
+        var depth = 1 - Math.min(1, Math.max(0, (p1.d + 1.2) / 2.6));
+        fx.strokeStyle = brass;
+        fx.globalAlpha = 0.10 + depth * 0.16 + near * near * 0.62;
+        fx.lineWidth = 0.7 + near * 1.3;
+        fx.beginPath();
+        fx.moveTo(p1.sx, p1.sy);
+        fx.lineTo(p2.sx, p2.sy);
+        fx.stroke();
+      }
+
+      for (var i = 0; i < NU; i++) {
+        for (var j = 0; j < NV; j++) {
+          if (i < NU - 1) edge(proj[i][j], proj[i + 1][j], grid[i][j].u, grid[i + 1][j].u);
+          if (j < NV - 1) edge(proj[i][j], proj[i][j + 1], grid[i][j].u, grid[i][j + 1].u);
+        }
+      }
+
+      // flaw indication — only lights up as the scan crosses it
+      var hit = Math.max(0, 1 - Math.abs(FU - scan) / 0.22);
+      if (hit > 0.01) {
+        var fp = project({
+          x: FU * 1.6, y: FV * 0.95,
+          z: 0.45 * Math.cos(FU * 1.25) - 0.32 * FV * FV
+        }, cyr, syr, cxr, sxr, cxp, cyp, scale);
+        var r = 4 + hit * 16;
+        var g = fx.createRadialGradient(fp.sx, fp.sy, 0, fp.sx, fp.sy, r);
+        g.addColorStop(0, flaw);
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        fx.globalAlpha = hit * 0.85;
+        fx.fillStyle = g;
+        fx.beginPath();
+        fx.arc(fp.sx, fp.sy, r, 0, Math.PI * 2);
+        fx.fill();
+      }
+
+      fx.globalAlpha = 1;
+      ft += 0.02;
+    }
+
+    fresize();
+    window.addEventListener('resize', fresize);
+
+    if (reduce) {
+      ft = 2.1;                       // one static frame, mid-sweep
+      fdraw(performance.now());
+      cancelAnimationFrame(frf);
+      frf = null;
+    } else {
+      frf = requestAnimationFrame(fdraw);
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) { cancelAnimationFrame(frf); frf = null; }
+        else if (!frf) { frf = requestAnimationFrame(fdraw); }
+      });
+    }
+  }
+
+})();
+</script>

@@ -1,0 +1,7 @@
+# The CSP hashes in docs/index.html are taken over the exact bytes of the
+# inline <style> and <script>. If Git handed out CRLF working copies on Windows
+# the next build would hash different bytes than the ones GitHub Pages serves,
+# and the browser would block the page's own stylesheet. Pin LF everywhere.
+* text=auto eol=lf
+*.pdf binary
+*.png binary
