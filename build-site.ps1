@@ -15,7 +15,11 @@ $body = Get-Content (Join-Path $root 'index.html') -Raw -Encoding UTF8
 $site = Join-Path $root 'docs'
 New-Item -ItemType Directory -Force $site | Out-Null
 
-$title = 'Yuval Gabay — CV'
+# Windows PowerShell 5.1 decodes a BOM-less .ps1 as the system ANSI codepage,
+# which mangles any non-ASCII literal in this file. Build the em dash from its
+# code point so the output is correct however the script happens to be saved.
+$emdash = [char]0x2014
+$title = "Yuval Gabay $emdash CV"
 $desc  = 'Law student, graphic designer and self-taught builder. Two apps built and running. CV for the Bavaria Israel Partnership Accelerator 2026.'
 
 function Get-CspHash([string]$content) {
