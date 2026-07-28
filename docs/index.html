@@ -13,11 +13,18 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-FdKbvdMYKJQBuXGDMvlPcxg1I94wLo1Hj4uyNGhunZA=' 'sha256-jhm+9xqA6ewDT85nJykU3MsLzdfdCpc/UBD2AYCeOb8='; script-src 'sha256-WBJs4T/N+hAk7odCjQlKMmDr92GBIuHgK5Bc96WTPa4='; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
 
+<!-- Absolute URLs: link scrapers never resolve relative ones. -->
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Yuval Gabay — CV">
 <meta property="og:description" content="Law student, graphic designer and self-taught builder. Two apps built and running. CV for the Bavaria Israel Partnership Accelerator 2026.">
+<meta property="og:url" content="https://yuvalgabay20.github.io/cv/">
 <meta property="og:locale" content="en_GB">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://yuvalgabay20.github.io/cv/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Yuval Gabay ג€” law student, graphic designer, self-taught builder">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuvalgabay20.github.io/cv/og.png">
 <meta name="theme-color" content="#0A0D15" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#E9EBEF" media="(prefers-color-scheme: light)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230A0D15%22/%3E%3Cg stroke=%22%23E4AC48%22 stroke-width=%221.8%22 fill=%22none%22 stroke-linecap=%22round%22%3E%3Cpath d=%22M16 7v18%22/%3E%3Cpath d=%22M8 11h16%22/%3E%3Cpath d=%22M11 25h10%22/%3E%3Cpath d=%22M5 18a3.5 3.5 0 0 0 6 0l-3-7z%22/%3E%3Cpath d=%22M21 18a3.5 3.5 0 0 0 6 0l-3-7z%22/%3E%3C/g%3E%3C/svg%3E">
@@ -1430,6 +1437,9 @@
             <a href="mailto:yuvalgabay20@gmail.com"><b>Email</b> yuvalgabay20@gmail.com</a>
             <a href="tel:+972503456676"><b>Phone</b> +972 50-345-6676</a>
             <span><b>Based</b> Israel</span>
+            <!-- Absolute, so the link also works from the hosted copy of this
+                 page that sits next to the file. -->
+            <a href="https://yuvalgabay20.github.io/cv/Yuval-Gabay-CV.pdf" target="_blank" rel="noopener noreferrer"><b>PDF</b> Download this CV</a>
           </div>
           <div class="sign__rule"></div>
           <div class="sign__f lbl">

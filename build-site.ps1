@@ -19,6 +19,7 @@ New-Item -ItemType Directory -Force $site | Out-Null
 # which mangles any non-ASCII literal in this file. Build the em dash from its
 # code point so the output is correct however the script happens to be saved.
 $emdash = [char]0x2014
+$base  = 'https://yuvalgabay20.github.io/cv'
 $title = "Yuval Gabay $emdash CV"
 $desc  = 'Law student, graphic designer and self-taught builder. Two apps built and running. CV for the Bavaria Israel Partnership Accelerator 2026.'
 
@@ -68,11 +69,18 @@ $head = @"
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="Content-Security-Policy" content="__CSP__">
 
+<!-- Absolute URLs: link scrapers never resolve relative ones. -->
 <meta property="og:type" content="profile">
 <meta property="og:title" content="$title">
 <meta property="og:description" content="$desc">
+<meta property="og:url" content="$base/">
 <meta property="og:locale" content="en_GB">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="$base/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Yuval Gabay — law student, graphic designer, self-taught builder">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="$base/og.png">
 <meta name="theme-color" content="#0A0D15" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#E9EBEF" media="(prefers-color-scheme: light)">
 <link rel="icon" href="$icon">
@@ -130,6 +138,11 @@ $headers = @"
 [System.IO.File]::WriteAllText((Join-Path $site '_headers'), $headers, [System.Text.UTF8Encoding]::new($false))
 
 Copy-Item (Join-Path $root 'Yuval-Gabay-CV.pdf') (Join-Path $site 'Yuval-Gabay-CV.pdf') -Force
+
+# The link-preview card. Regenerate only when og-card.html changes.
+if (-not (Test-Path (Join-Path $site 'og.png'))) {
+  Write-Warning 'docs/og.png is missing - render og-card.html at 1200x630 to restore the link preview.'
+}
 
 $kb = [math]::Round((Get-Item (Join-Path $site 'index.html')).Length / 1kb, 1)
 Write-Output "docs/index.html written ($kb KB)"
