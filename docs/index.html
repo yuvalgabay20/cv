@@ -11,7 +11,7 @@
      the page carries a personal phone number. -->
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-FdKbvdMYKJQBuXGDMvlPcxg1I94wLo1Hj4uyNGhunZA=' 'sha256-jhm+9xqA6ewDT85nJykU3MsLzdfdCpc/UBD2AYCeOb8='; script-src 'sha256-WBJs4T/N+hAk7odCjQlKMmDr92GBIuHgK5Bc96WTPa4='; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-FdKbvdMYKJQBuXGDMvlPcxg1I94wLo1Hj4uyNGhunZA=' 'sha256-ZSNlG/5fQSilQxxGLesc/rv4/wQqduvfPYm2VVmsmdQ='; script-src 'sha256-WBJs4T/N+hAk7odCjQlKMmDr92GBIuHgK5Bc96WTPa4='; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
 
 <!-- Absolute URLs: link scrapers never resolve relative ones. -->
 <meta property="og:type" content="profile">
@@ -48,12 +48,15 @@
   --surface-2:  #FDFDFE;
   --ink:        #12161D;
   --muted:      #55606F;
-  --faint:      #7B8697;
+  /* Measured against --paper, the weakest ground these sit on, not against
+     the lighter --surface. Both previously landed just under 4.5:1 at the
+     11px sizes they are used at. */
+  --faint:      #5C6673;   /* 4.88:1 on --paper */
   --line:       #C7CDD7;
   --line-soft:  #DCE1E8;
-  --brass:      #96660E;
+  --brass:      #8A5D0A;   /* 4.82:1 on --paper */
   --brass-ink:  #6E5011;
-  --brass-soft: rgba(150,102,14,.12);
+  --brass-soft: rgba(138,93,10,.12);
   --jade:       #0E6B4E;
   --flaw:       #BE4A22;
   --glow-warm:  rgba(214,146,40,.30);
@@ -78,7 +81,7 @@
     --surface-2:  #1A2230;
     --ink:        #ECEAE4;
     --muted:      #9DA6B4;
-    --faint:      #778394;
+    --faint:      #828D9E;   /* 5.2:1 on --surface; #778394 measured 4.44:1 */
     --line:       #2B3444;
     --line-soft:  #1F2836;
     --brass:      #E4AC48;
@@ -93,14 +96,14 @@
 }
 :root[data-theme="dark"] {
   --paper:#0A0D15; --surface:#151C28; --surface-2:#1A2230; --ink:#ECEAE4;
-  --muted:#9DA6B4; --faint:#778394; --line:#2B3444; --line-soft:#1F2836;
+  --muted:#9DA6B4; --faint:#828D9E; --line:#2B3444; --line-soft:#1F2836;
   --brass:#E4AC48; --brass-ink:#F2C777; --brass-soft:rgba(228,172,72,.14); --jade:#4FD1A0;
   --flaw:#F4794F; --glow-warm:rgba(228,172,72,.20); --glow-cool:rgba(58,124,186,.20); --field:.52;
 }
 :root[data-theme="light"] {
   --paper:#E9EBEF; --surface:#F7F8FA; --surface-2:#FDFDFE; --ink:#12161D;
-  --muted:#55606F; --faint:#7B8697; --line:#C7CDD7; --line-soft:#DCE1E8;
-  --brass:#96660E; --brass-ink:#6E5011; --brass-soft:rgba(150,102,14,.12); --jade:#0E6B4E;
+  --muted:#55606F; --faint:#5C6673; --line:#C7CDD7; --line-soft:#DCE1E8;
+  --brass:#8A5D0A; --brass-ink:#6E5011; --brass-soft:rgba(138,93,10,.12); --jade:#0E6B4E;
   --flaw:#BE4A22; --glow-warm:rgba(214,146,40,.30); --glow-cool:rgba(52,116,168,.22); --field:.55;
 }
 
@@ -377,7 +380,9 @@
   display: inline-flex; align-items: center; gap: .55rem;
   background: none; border: none; padding: 0;
   cursor: pointer;
-  margin-bottom: .55rem;
+  /* 2.5.8 wants 24px of target, and the 11px type only gave 13. */
+  min-height: 24px;
+  margin-bottom: .2rem;
   font-family: var(--font-mono);
   font-size: .6875rem;
   letter-spacing: .14em;
@@ -691,13 +696,17 @@
    These controls are on top of that, not instead of it.
    ============================================================ */
 
-/* Skip link: first thing a keyboard or screen-reader user reaches. */
-.skip {
+/* Skip link: first thing a keyboard or screen-reader user reaches.
+   Selector carries .cv so it outranks `.cv a { color: inherit }` — without
+   that the text inherited near-white onto the brass bar, 1.7:1. */
+.cv .skip {
   position: absolute;
   left: var(--s3); top: -100px;
   z-index: 100;
   padding: .7rem 1.1rem;
-  background: var(--brass);
+  /* Ink on paper inverted: 15:1 or better in both themes. Brass could not
+     clear 4.5:1 against light paper at this size. */
+  background: var(--ink);
   color: var(--paper);
   font-family: var(--font-mono);
   font-size: .8125rem;
@@ -706,7 +715,7 @@
   border: none; border-radius: 3px;
   transition: top .2s var(--ease);
 }
-.skip:focus { top: var(--s3); color: var(--paper); }
+.cv .skip:focus { top: var(--s3); color: var(--paper); }
 
 .a11y { position: fixed; right: 18px; bottom: 18px; z-index: 95; }
 @media (min-width: 1024px) { .a11y { right: 24px; bottom: 24px; } }
@@ -934,13 +943,15 @@
    FOOTER + LEGAL OVERLAY
    ============================================================ */
 .foot {
-  display: flex; flex-wrap: wrap; gap: .5rem 1.4rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.4rem;
   padding-top: var(--s5);
   margin-top: var(--s5);
   border-top: 1px solid var(--line-soft);
 }
 .foot button {
-  background: none; border: none; padding: 0;
+  background: none; border: none;
+  display: inline-flex; align-items: center;
+  min-height: 24px; padding: 0;
   cursor: pointer;
   font-family: var(--font-mono);
   font-size: .6875rem;
@@ -1538,18 +1549,29 @@
       <ul>
         <li>The moving panel behind the page is decoration. It carries no information and is hidden from assistive technology, so a screen reader will not describe it. Turning on "Stop animation" removes it entirely.</li>
         <li>The PDF version of this CV is a separate document and has not been tested to the same standard. Everything in it is on this page.</li>
+        <li>Layout has been verified down to 375&nbsp;px wide, which covers current phones. It has not been checked at the 320&nbsp;px WCAG reflow minimum.</li>
         <li>The page has been tested by keyboard, at browser zoom, in both themes and with contrast measured. It has not been tested with every screen reader and browser combination in use.</li>
       </ul>
 
-      <h4>Found a problem?</h4>
+      <h4>How this was checked</h4>
       <p>
-        Tell me and I will fix it. Email
-        <a href="mailto:yuvalgabay20@gmail.com?subject=Accessibility">yuvalgabay20@gmail.com</a>
-        or call <a href="tel:+972503456676">+972 50-345-6676</a>.
+        Every text and background pair on the page was measured against the 4.5:1
+        threshold in both themes; the lowest is 4.6:1. Heading order, landmarks,
+        accessible names, focus order, target sizes and the WCAG text-spacing
+        override were all verified programmatically rather than by eye.
+      </p>
+
+      <h4>Accessibility coordinator</h4>
+      <p>
+        Yuval Gabay &mdash;
+        <a href="mailto:yuvalgabay20@gmail.com?subject=Accessibility">yuvalgabay20@gmail.com</a>,
+        <a href="tel:+972503456676">+972 50-345-6676</a>.
+        Tell me about anything that does not work for you and I will fix it.
       </p>
 
       <div class="legal__meta">
         Statement prepared 28 July 2026<br>
+        Last accessibility check 28 July 2026<br>
         Applies to yuvalgabay20.github.io/cv
       </div>
     </div>
