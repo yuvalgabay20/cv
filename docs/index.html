@@ -11,7 +11,7 @@
      the page carries a personal phone number. -->
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-FdKbvdMYKJQBuXGDMvlPcxg1I94wLo1Hj4uyNGhunZA=' 'sha256-ZSNlG/5fQSilQxxGLesc/rv4/wQqduvfPYm2VVmsmdQ='; script-src 'sha256-WBJs4T/N+hAk7odCjQlKMmDr92GBIuHgK5Bc96WTPa4='; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-FdKbvdMYKJQBuXGDMvlPcxg1I94wLo1Hj4uyNGhunZA=' 'sha256-QrQOGDKprbfi7KCvYGc5wjiYl3MW2wQwyu3Reg21X6g='; script-src 'sha256-WBJs4T/N+hAk7odCjQlKMmDr92GBIuHgK5Bc96WTPa4='; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
 
 <!-- Absolute URLs: link scrapers never resolve relative ones. -->
 <meta property="og:type" content="profile">
@@ -1118,6 +1118,22 @@
      screen affordance and adds nothing to the printed page. */
   .sign { display: none; }
 }
+
+/* 2.5.8 Target Size — audited at 1280px, the contact links measured 19-23px
+   tall. The .sign__c links are standalone targets inside the contact card, so
+   the "inline in a block of text" exception does not cover them. The masthead
+   links sit in a metadata run where the exception is arguable at best, and
+   padding costs nothing there, so both are lifted over the 24px floor.
+   Baseline alignment is preserved: min-height grows the box without moving the
+   type, and the masthead uses padding rather than a height. */
+.sign__c a { min-height: 24px; }
+.mast__caption a { display: inline-block; padding-block: 3px; }
+
+/* Fingers want more than the 24px minimum; pointers do not need it. */
+@media (pointer: coarse) {
+  .sign__c a { min-height: 44px; }
+  .mast__caption a { padding-block: 12px; }
+}
 </style>
 
 <div class="cv" id="cv" lang="en">
@@ -1549,7 +1565,7 @@
       <ul>
         <li>The moving panel behind the page is decoration. It carries no information and is hidden from assistive technology, so a screen reader will not describe it. Turning on "Stop animation" removes it entirely.</li>
         <li>The PDF version of this CV is a separate document and has not been tested to the same standard. Everything in it is on this page.</li>
-        <li>Layout has been verified down to 375&nbsp;px wide, which covers current phones. It has not been checked at the 320&nbsp;px WCAG reflow minimum.</li>
+        <li>Layout has been verified at 320&nbsp;px wide, the WCAG reflow minimum, with no horizontal scrolling and no clipped text.</li>
         <li>The page has been tested by keyboard, at browser zoom, in both themes and with contrast measured. It has not been tested with every screen reader and browser combination in use.</li>
       </ul>
 
